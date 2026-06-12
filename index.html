@@ -1,23 +1,200 @@
-<div id="relogio"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Task Bar Hero - Calculadora XP</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #111827;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    background: #1f2937;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #000;
+}
+
+h1 {
+    text-align: center;
+    color: #60a5fa;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: none;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.resultado {
+    margin-top: 20px;
+    background: #111827;
+    padding: 15px;
+    border-radius: 12px;
+    line-height: 1.8;
+}
+
+.valor {
+    color: #34d399;
+    font-weight: bold;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>⚔️ Task Bar Hero XP</h1>
+
+
+<label>XP inicial</label>
+<input id="xpInicial" value="9994027">
+
+
+<label>XP final</label>
+<input id="xpFinal" value="12578486">
+
+
+<label>Tempo farmado (segundos)</label>
+<input id="tempo" value="1233">
+
+
+<label>Tempo do mapa (segundos)</label>
+<input id="mapa" value="305">
+
+
+<label>XP necessário para próximo nível</label>
+<input id="xpNivel" value="15618450">
+
+
+<button onclick="calcular()">Calcular XP</button>
+
+
+<div class="resultado" id="resultado">
+Preencha os dados e clique em calcular.
+</div>
+
+
+</div>
+
 
 <script>
-function atualizarRelogio(){
 
-let agora = new Date();
+function formatar(valor){
+    return Math.round(valor).toLocaleString("pt-BR");
+}
 
-let brasil = agora.toLocaleString("pt-BR", {
-timeZone: "America/Sao_Paulo",
-hour: "2-digit",
-minute: "2-digit",
-second: "2-digit"
-});
 
-document.getElementById("relogio").innerHTML =
-"🕒 Horário de Brasília: " + brasil;
+function calcular(){
+
+let xpInicial = Number(document.getElementById("xpInicial").value);
+let xpFinal = Number(document.getElementById("xpFinal").value);
+let tempo = Number(document.getElementById("tempo").value);
+let mapa = Number(document.getElementById("mapa").value);
+let xpNivel = Number(document.getElementById("xpNivel").value);
+
+
+let ganho = xpFinal - xpInicial;
+
+
+let xpSegundo = ganho / tempo;
+let xpMinuto = xpSegundo * 60;
+let xpHora = xpMinuto * 60;
+
+
+let xpMapa = xpSegundo * mapa;
+
+
+let mapasHora = 3600 / mapa;
+
+
+let horas = xpNivel / xpHora;
+let minutos = horas * 60;
+
+
+let mapasNivel = xpNivel / xpMapa;
+
+
+document.getElementById("resultado").innerHTML = `
+
+<h2>📊 Resultado</h2>
+
+XP ganho:
+<span class="valor">${formatar(ganho)}</span><br>
+
+XP por segundo:
+<span class="valor">${formatar(xpSegundo)}</span><br>
+
+XP por minuto:
+<span class="valor">${formatar(xpMinuto)}</span><br>
+
+XP por hora:
+<span class="valor">${formatar(xpHora)}</span><br>
+
+<hr>
+
+XP por mapa:
+<span class="valor">${formatar(xpMapa)}</span><br>
+
+Mapas por hora:
+<span class="valor">${mapasHora.toFixed(2)}</span><br>
+
+<hr>
+
+Tempo até o nível:
+<span class="valor">${horas.toFixed(2)} horas</span><br>
+
+≈
+<span class="valor">${minutos.toFixed(0)} minutos</span><br>
+
+Mapas necessários:
+<span class="valor">${mapasNivel.toFixed(1)}</span>
+
+`;
 
 }
 
-setInterval(atualizarRelogio,1000);
-atualizarRelogio();
-
 </script>
+
+
+</body>
+</html>
